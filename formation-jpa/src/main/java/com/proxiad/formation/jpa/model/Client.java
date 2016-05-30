@@ -1,13 +1,15 @@
 package com.proxiad.formation.jpa.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-//@Table(name = "client") // permet de spécifier un nom de table si différent du nom de la classe, d'ajouter des contraintes d'unicité, une PK composée ...
-public class Client {
+public class Client implements Serializable {
+
+	private static final long serialVersionUID = 7178047978250131429L;
 
 	@Id
 	private String numero;
