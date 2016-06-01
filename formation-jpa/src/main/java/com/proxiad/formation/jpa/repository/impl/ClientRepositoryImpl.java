@@ -17,17 +17,17 @@ public class ClientRepositoryImpl implements ClientRepository {
 
 	@PersistenceContext
 	private EntityManager em;
-	
+
 	@Override
 	public void create(Client client) {
 		em.persist(client);
 	}
-	
+
 	@Override
 	public Client update(Client client) {
 		return em.merge(client);
 	}
-	
+
 	@Override
 	public Client find(String numeroClient) {
 		return em.find(Client.class, numeroClient);
@@ -38,4 +38,16 @@ public class ClientRepositoryImpl implements ClientRepository {
 		String query = "select c from Client c";
 		return em.createQuery(query, Client.class).getResultList();
 	}
+
+	@Override
+	public void delete(Client client) {
+		// Tester si l'entity client est attachée au contexte de persistence.
+		// Expliquer la notion d'entitée attach/detach
+		if (em.contains(client)) {
+			em.remove(client);
+		} else {
+			em.remove(em.merge(client));
+		}
+	}
+
 }

@@ -12,24 +12,25 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="ligne_commande")
+@Table(name = "ligne_commande")
 @IdClass(LigneCommandePK.class)
 public class LigneCommande implements Serializable {
 
 	private static final long serialVersionUID = -7633597732765228214L;
 
 	@Id
+	@Column(name = "numero_ligne")
 	private Integer numeroLigne;
-	
+
 	@ManyToOne
-    @JoinColumn(name = "commande_id", foreignKey = @ForeignKey(name = "fk_ligne_commande_commande"))
-    @Id
+	@JoinColumn(name = "commande_id", foreignKey = @ForeignKey(name = "fk_ligne_commande_commande"))
+	@Id
 	private Commande commande;
-	
+
 	@ManyToOne
-    @JoinColumn(name = "article_code", foreignKey = @ForeignKey(name = "fk_ligne_commande_article"))
+	@JoinColumn(name = "article_code", foreignKey = @ForeignKey(name = "fk_ligne_commande_article"))
 	private Article article;
-	
+
 	@Column
 	private Integer quantite;
 
@@ -95,7 +96,5 @@ public class LigneCommande implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
+
 }

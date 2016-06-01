@@ -22,6 +22,7 @@
 		<!-- db embedded : -->
 		<property name="url" value="jdbc:hsqldb:mem:paging" />
 		
+		<!-- external db : -->
 		<!-- <property name="url" value="jdbc:hsqldb:hsql://localhost/" /> -->
 
 		<property name="username" value="SA" />

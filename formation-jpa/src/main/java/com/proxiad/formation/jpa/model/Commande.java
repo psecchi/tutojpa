@@ -34,7 +34,7 @@ public class Commande implements Serializable {
 	@Column(name = "date_creation")
 	private Date dateCreation;
 
-	@Column
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private EtatCommande etat;
 

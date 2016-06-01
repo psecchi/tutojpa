@@ -6,11 +6,13 @@ import com.proxiad.formation.jpa.model.Client;
 
 public interface ClientRepository {
 
-	public void create(Client client);
-	
-	public Client update(Client client);
-	
+	void create(Client client);
+
+	Client update(Client client);
+
 	Client find(String numeroClient);
-	
+
 	List<Client> findAll();
+
+	void delete(Client client);
 }
