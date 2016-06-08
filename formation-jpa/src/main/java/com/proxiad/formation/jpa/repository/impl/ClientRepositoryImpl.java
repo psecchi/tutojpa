@@ -21,6 +21,7 @@ public class ClientRepositoryImpl implements ClientRepository {
 	@Override
 	public void create(Client client) {
 		em.persist(client);
+		em.flush();
 	}
 
 	@Override

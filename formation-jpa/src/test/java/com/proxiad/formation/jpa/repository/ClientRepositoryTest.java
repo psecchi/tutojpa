@@ -4,9 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
@@ -46,7 +47,7 @@ public class ClientRepositoryTest extends AbstractRepositoryTest {
 		assertEquals(initialSize + 1, clientRepository.findAll().size());
 	}
 
-	@Test(expected = DataIntegrityViolationException.class)
+	@Test(expected = PersistenceException.class)
 	public void testSaveEchoueCarClientExisteDeja() {
 		Client client = new Client();
 		client.setNumero("1"); // le client 1 est deja en base => le persist va

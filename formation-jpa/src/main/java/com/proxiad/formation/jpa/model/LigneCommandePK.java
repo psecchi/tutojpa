@@ -8,22 +8,26 @@ import javax.persistence.Embeddable;
 public class LigneCommandePK implements Serializable {
 
 	private static final long serialVersionUID = 5369277290873581904L;
-	
+
 	private Integer numeroLigne;
 	private String commande;
-	
+
 	public Integer getNumeroLigne() {
 		return numeroLigne;
 	}
+
 	public void setNumeroLigne(Integer numeroLigne) {
 		this.numeroLigne = numeroLigne;
 	}
+
 	public String getCommande() {
 		return commande;
 	}
+
 	public void setCommande(String commande) {
 		this.commande = commande;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -32,6 +36,7 @@ public class LigneCommandePK implements Serializable {
 		result = prime * result + ((numeroLigne == null) ? 0 : numeroLigne.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -53,7 +58,5 @@ public class LigneCommandePK implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
+
 }

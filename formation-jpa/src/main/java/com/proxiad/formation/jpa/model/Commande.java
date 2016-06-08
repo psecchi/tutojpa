@@ -16,6 +16,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -38,9 +40,20 @@ public class Commande implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private EtatCommande etat;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_numero", nullable = false, foreignKey = @ForeignKey(name = "fk_commande_client"))
 	private Client client;
+
+	// @formatter:off
+	@ManyToMany
+	@JoinTable(name = "commande_details", 
+			   joinColumns = {@JoinColumn(name = "commande_id", referencedColumnName = "id") }, 
+			   inverseJoinColumns = {@JoinColumn(name = "article_code", referencedColumnName = "code") })
+	// FIXME : à supprimer et à remplacer par un @OneToMany sur LigneCommande
+	// car la table d'association Commande/Article va porter des infos
+	// supplémentaires (quantité, numéro de ligne...)
+	// @formatter:on
+	private Set<Article> articles = new HashSet<>();
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "commande", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<LigneCommande> lignes = new HashSet<>();
@@ -75,6 +88,14 @@ public class Commande implements Serializable {
 
 	public void setClient(Client client) {
 		this.client = client;
+	}
+
+	public Set<Article> getArticles() {
+		return articles;
+	}
+
+	public void setArticles(Set<Article> articles) {
+		this.articles = articles;
 	}
 
 	public Set<LigneCommande> getLignes() {

@@ -22,6 +22,7 @@ public class CommandeRepositoryTest extends AbstractRepositoryTest {
 	public void testFind() {
 		Commande commande = commandeRepository.find("1");
 		assertNotNull(commande);
+		assertEquals(3, commande.getArticles().size());
 		assertEquals(3, commande.getLignes().size());
 	}
 }
