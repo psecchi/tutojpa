@@ -25,9 +25,16 @@ public class CommandeRepositoryImpl implements CommandeRepository {
 	}
 
 	@Override
-	public List<Commande> findByNumeroClient(Integer numeroClient) {
+	public List<Commande> findAll() {
+		String queryStr = "select c from Commande c";
+		TypedQuery<Commande> query = em.createQuery(queryStr, Commande.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Commande> findByNumeroClient(String numeroClient) {
 		String queryStr = "select c from Commande c where c.client.numero = :numeroClient ";
-		TypedQuery<Commande> query = em.createNamedQuery(queryStr, Commande.class);
+		TypedQuery<Commande> query = em.createQuery(queryStr, Commande.class);
 		query.setParameter("numeroClient", numeroClient);
 		return query.getResultList();
 	}
@@ -51,4 +58,39 @@ public class CommandeRepositoryImpl implements CommandeRepository {
 		}
 	}
 
+	@Override
+	public List<Commande> findByDesignationArticle(String designationArticle) {
+		String queryStr = "select c from Commande c join fetch c.lignes l where upper(l.article.designation) like :designationArticle ";
+		TypedQuery<Commande> query = em.createQuery(queryStr, Commande.class);
+		query.setParameter("designationArticle", "%" + designationArticle.toUpperCase() + "%");
+		return query.getResultList();
+	}
+
+	@Override
+	public Double calculeMontantTotal(String idCommande) {
+		String queryStr = "select sum(l.article.prix * l.quantite) from Commande c join c.lignes l where c.id = :idCommande ";
+		TypedQuery<Double> query = em.createQuery(queryStr, Double.class);
+		query.setParameter("idCommande", idCommande);
+		return query.getSingleResult();
+	}
+	
+	@Override
+	public List<Commande> findAllFetchLigne() {
+		// expliquer le distinct
+//		String queryStr = "select c from Commande c ";
+//		String queryStr = "select distinct c from Commande c join c.lignes l ";
+		String queryStr = "select distinct c from Commande c join fetch c.lignes l ";
+		TypedQuery<Commande> query = em.createQuery(queryStr, Commande.class);
+		return query.getResultList();
+	}
+	
+	@Override
+	public void flush() {
+		em.flush();
+	}
+	
+	@Override
+	public void detach(Commande commande) {
+		em.detach(commande);
+	}
 }

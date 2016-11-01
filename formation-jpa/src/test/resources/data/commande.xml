@@ -1,19 +1,31 @@
 <dataset>
 	<article code="1111" designation="echelle" prix="20.50"/>
 	<article code="1234" designation="tournevis" prix="5"/>
+	<article code="12345" designation="tournevis cruciforme" prix="5"/>
+	<article code="12346" designation="coffret de tournevis" prix="25"/>
 	<article code="2222" designation="tondeuse" prix="190.99"/>
 	<article code="4567" designation="rateau" prix="15"/>
 	
 	<client numero="1" nom="Zidane" prenom="Zinedine"/>
+	<client numero="2" nom="Henry" prenom="Thierry"/>
+	<client numero="3" nom="Trezeguet" prenom="David"/>
 	
 	<commande id="1" date_creation="2016-02-11 08:00:00" etat="EN_COURS" client_numero="1"/>
-	
-	<commande_details commande_id="1"  article_code="1111" />
+	<!-- <commande_details commande_id="1"  article_code="1111" />
 	<commande_details commande_id="1"  article_code="1234"  />
 	<commande_details commande_id="1"  article_code="2222"  />
-	
+	 -->
 	<ligne_commande commande_id="1" numero_ligne="1" article_code="1111" quantite="5" />
 	<ligne_commande commande_id="1" numero_ligne="2" article_code="1234" quantite="1" />
 	<ligne_commande commande_id="1" numero_ligne="3" article_code="2222" quantite="2" />
+	
+	<commande id="2" date_creation="2016-02-11 08:00:00" etat="EN_COURS" client_numero="2"/>
+	<ligne_commande commande_id="2" numero_ligne="1" article_code="12345" quantite="5" />
+	
+	<commande id="3" date_creation="2016-02-11 08:00:00" etat="EN_COURS" client_numero="3"/>
+	<ligne_commande commande_id="3" numero_ligne="1" article_code="12346" quantite="5" />
+	
+	<commande id="4" date_creation="2016-02-11 08:00:00" etat="EN_COURS" client_numero="1"/>
+	<ligne_commande commande_id="4" numero_ligne="1" article_code="4567" quantite="5" />
 	
 </dataset>

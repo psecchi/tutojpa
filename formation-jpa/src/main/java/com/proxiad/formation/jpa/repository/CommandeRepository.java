@@ -7,8 +7,10 @@ import com.proxiad.formation.jpa.model.Commande;
 public interface CommandeRepository {
 
 	Commande find(String id);
+	
+	List<Commande> findAll();
 
-	List<Commande> findByNumeroClient(Integer numeroClient);
+	List<Commande> findByNumeroClient(String numeroClient);
 
 	void create(Commande commande);
 
@@ -16,4 +18,15 @@ public interface CommandeRepository {
 
 	void delete(Commande commande);
 
+	List<Commande> findByDesignationArticle(String designationArticle);
+	
+	Double calculeMontantTotal(String numeroCommande);
+	
+	// Juste pour les tests : 
+	void flush();
+	
+	void detach(Commande commande);
+	
+	List<Commande> findAllFetchLigne();
+	
 }
