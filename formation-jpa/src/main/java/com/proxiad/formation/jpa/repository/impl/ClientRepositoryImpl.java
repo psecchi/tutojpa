@@ -50,5 +50,15 @@ public class ClientRepositoryImpl implements ClientRepository {
 			em.remove(em.merge(client));
 		}
 	}
+	
+	@Override
+	public void flush() {
+		em.flush();
+	}
+	
+	@Override
+	public void detach(Client client) {
+		em.detach(client);
+	}
 
 }

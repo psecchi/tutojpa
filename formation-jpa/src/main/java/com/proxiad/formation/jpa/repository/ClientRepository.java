@@ -15,4 +15,8 @@ public interface ClientRepository {
 	List<Client> findAll();
 
 	void delete(Client client);
+	
+	void flush();
+	
+	void detach(Client client);
 }

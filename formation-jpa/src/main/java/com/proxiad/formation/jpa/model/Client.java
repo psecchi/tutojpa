@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Client implements Serializable {
+public class Client extends AbstractAuditableEntity implements Serializable {
 
 	private static final long serialVersionUID = 7178047978250131429L;
 

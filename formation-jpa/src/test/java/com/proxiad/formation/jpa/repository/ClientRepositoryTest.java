@@ -1,11 +1,15 @@
 package com.proxiad.formation.jpa.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
 import javax.persistence.PersistenceException;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,6 +49,11 @@ public class ClientRepositoryTest extends AbstractRepositoryTest {
 		clientRepository.create(client);
 
 		assertEquals(initialSize + 1, clientRepository.findAll().size());
+		
+		// on test egalement la persistance des champs liés à la tracabilité : 
+		assertNotNull(client.getDateCreation());
+		assertNotNull(client.getDateMaj());
+		assertTrue(client.getDateCreation().equals(client.getDateMaj()));
 	}
 
 	@Test(expected = PersistenceException.class)
@@ -64,9 +73,15 @@ public class ClientRepositoryTest extends AbstractRepositoryTest {
 		client.setNom("NomMAJ");
 
 		clientRepository.update(client);
-
-		assertEquals("NomMAJ", clientRepository.find("1").getNom());
-		assertEquals("Zinedine", clientRepository.find("1").getPrenom());
+		clientRepository.flush();
+		
+		client = clientRepository.find("1");
+		assertEquals("NomMAJ", client.getNom());
+		assertEquals("Zinedine", client.getPrenom());
+		
+		// on test egalement la persistance des champs liés à la tracabilité : 
+		assertNotNull(client.getDateMaj());
+		assertFalse(client.getDateMaj().equals(client.getDateCreation()));
 	}
 
 	@Test
@@ -79,4 +94,29 @@ public class ClientRepositoryTest extends AbstractRepositoryTest {
 
 		assertEquals(initialSize - 1, clientRepository.findAll().size());
 	}
+	
+	@Test
+	public void testTouteModifSurUneEntiteManagedEstPeriste() {
+		Client client = clientRepository.find("1");
+		client.setNom("NomMAJ2");
+
+		clientRepository.flush();
+
+		// nous n'avons pas appelée la méthode save de notre repository ni même
+		// le persist de l'entityManager pourtant le nom a été mis à jour en
+		// base, un ordre sql d'update a été généré lors du flush :
+		assertEquals("NomMAJ2", clientRepository.find("1").getNom());
+	}
+	
+	@Test
+	public void testTouteModifSurUneEntiteDetachedEstPerdue() {
+		Client client = clientRepository.find("1");
+		client.setNom("NomMAJ3");
+
+		clientRepository.detach(client);
+		clientRepository.flush();
+
+		assertEquals("Zidane", clientRepository.find("1").getNom());
+	}
+	
 }
