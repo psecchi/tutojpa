@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
+import org.hibernate.LazyInitializationException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -67,9 +68,9 @@ public class CommandeRepositoryTest extends AbstractRepositoryTest {
 
 		commande.getLignes().remove(ligneASupprimer);
 		commandeRepository.update(commande);
-		
-		//faire le test en commentant le cascade
-		
+
+		// faire le test en commentant le cascade
+
 		commandeRepository.flush(); // expliquer pourquoi fulsh et detach
 		commandeRepository.detach(commande);
 
@@ -77,16 +78,31 @@ public class CommandeRepositoryTest extends AbstractRepositoryTest {
 		assertEquals(nbLigne - 1, commandeBis.getLignes().size());
 
 	}
-	
+
 	@Test
 	public void testFindAllFetchLigne() {
+		// but du test : analyser les requetes dans les logs.
+		// Changer l'implémentation de commandeRepository.findAllFetchLigne() ,
+		// pour chaque requete JPQL, eexcuter ce test et regarder les requetes
+		// générées
 		List<Commande> commandes = commandeRepository.findAllFetchLigne();
 		System.out.println("avant getLigne");
 		for (Commande commande : commandes) {
-			System.out.println("la commande "+commande.getId() +" a " + commande.getLignes().size() +" lignes");
+			System.out.println("la commande " + commande.getId() + " a " + commande.getLignes().size() + " lignes");
 		}
 		assertNotNull(commandes);
 		System.out.println("après getLigne");
-		
+
+	}
+
+	@Test(expected = LazyInitializationException.class)
+	public void testPbLazy() {
+
+		// But du test : tenter d'accéder à une propriété en lazy d'une entité
+		// "detachée" du contexte
+		Commande commande = commandeRepository.find("1");
+		commandeRepository.detach(commande); // l'entité commande n'est plus gérée par l'entityManager
+		int nbLigne = commande.getLignes().size(); // => l'appel getLignes à génère une LazyInitializationException
+
 	}
 }
