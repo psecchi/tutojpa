@@ -43,6 +43,22 @@ public class CommandeRepositoryTest extends AbstractRepositoryTest {
 	}
 	
 	@Test
+	public void testFindWithPagination() {
+		int start = 0;
+		int maxResult = 2;
+		List<Commande> commandes = commandeRepository.findAll(start, maxResult);
+		assertEquals(2, commandes.size());
+		assertEquals("1", commandes.get(0).getId());
+		assertEquals("2", commandes.get(1).getId());
+		
+		start = 2;
+		commandes = commandeRepository.findAll(start, maxResult);
+		assertEquals(2, commandes.size());
+		assertEquals("3", commandes.get(0).getId());
+		assertEquals("4", commandes.get(1).getId());
+	}
+	
+	@Test
 	public void testCreate() {
 		Commande commande = new Commande();
 		commande.setEtat(EtatCommande.EN_COURS);

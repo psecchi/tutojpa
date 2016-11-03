@@ -31,6 +31,13 @@ public class CommandeRepositoryImpl implements CommandeRepository {
 		TypedQuery<Commande> query = em.createQuery(queryStr, Commande.class);
 		return query.getResultList();
 	}
+	
+	@Override
+	public List<Commande> findAll(int startPosition, int maxResult) {
+		String queryStr = "select c from Commande c order by c.id ";
+		TypedQuery<Commande> query = em.createQuery(queryStr, Commande.class).setFirstResult(startPosition).setMaxResults(maxResult);
+		return query.getResultList();
+	}
 
 	@Override
 	public List<Commande> findByNumeroClient(String numeroClient) {

@@ -10,6 +10,8 @@ public interface CommandeRepository {
 	Commande find(String id);
 
 	List<Commande> findAll();
+	
+	public List<Commande> findAll(int startPosition, int maxResult);
 
 	List<Commande> findByNumeroClient(String numeroClient);
 
