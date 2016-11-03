@@ -14,7 +14,7 @@ public class Client extends AbstractAuditableEntity implements Serializable {
 	@Id
 	private String numero;
 	
-	@Column
+	@Column(name="nom", nullable=false)
 	private String nom;
 	
 	@Column

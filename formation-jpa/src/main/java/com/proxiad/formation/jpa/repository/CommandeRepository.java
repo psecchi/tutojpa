@@ -2,12 +2,13 @@ package com.proxiad.formation.jpa.repository;
 
 import java.util.List;
 
+import com.proxiad.formation.jpa.dto.CommandeClientDTO;
 import com.proxiad.formation.jpa.model.Commande;
 
 public interface CommandeRepository {
 
 	Commande find(String id);
-	
+
 	List<Commande> findAll();
 
 	List<Commande> findByNumeroClient(String numeroClient);
@@ -19,14 +20,16 @@ public interface CommandeRepository {
 	void delete(Commande commande);
 
 	List<Commande> findByDesignationArticle(String designationArticle);
-	
+
 	Double calculeMontantTotal(String numeroCommande);
-	
-	// Juste pour les tests : 
-	void flush();
-	
-	void detach(Commande commande);
-	
+
 	List<Commande> findAllFetchLigne();
-	
+
+	List<CommandeClientDTO> getCommandeClientDTOs();
+
+	// Juste pour les tests :
+	void flush();
+
+	void detach(Commande commande);
+
 }

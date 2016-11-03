@@ -56,17 +56,6 @@ public class ClientRepositoryTest extends AbstractRepositoryTest {
 		assertTrue(client.getDateCreation().equals(client.getDateMaj()));
 	}
 
-	@Test(expected = PersistenceException.class)
-	public void testSaveEchoueCarClientExisteDeja() {
-		Client client = new Client();
-		client.setNumero("1"); // le client 1 est deja en base => le persist va
-								// planter : violation de la PK
-		client.setNom("Dupont");
-		client.setPrenom("Martin");
-
-		clientRepository.create(client);
-	}
-
 	@Test
 	public void testUpdate() {
 		Client client = clientRepository.find("1");

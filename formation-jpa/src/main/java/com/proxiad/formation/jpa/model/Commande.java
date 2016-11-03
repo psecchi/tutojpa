@@ -45,15 +45,18 @@ public class Commande implements Serializable {
 	private Client client;
 
 	// @formatter:off
+	// FIXME : à supprimer et à remplacer par un @OneToMany sur LigneCommande
+		// car la table d'association Commande/Article va porter des infos
+		// supplémentaires (quantité, numéro de ligne...)
+	/*
 	@ManyToMany
 	@JoinTable(name = "commande_details", 
 			   joinColumns = {@JoinColumn(name = "commande_id", referencedColumnName = "id") }, 
 			   inverseJoinColumns = {@JoinColumn(name = "article_code", referencedColumnName = "code") })
-	// FIXME : à supprimer et à remplacer par un @OneToMany sur LigneCommande
-	// car la table d'association Commande/Article va porter des infos
-	// supplémentaires (quantité, numéro de ligne...)
+	
 	// @formatter:on
 	private Set<Article> articles = new HashSet<>();
+	*/
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "commande", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<LigneCommande> lignes = new HashSet<>();
@@ -90,13 +93,13 @@ public class Commande implements Serializable {
 		this.client = client;
 	}
 
-	public Set<Article> getArticles() {
-		return articles;
-	}
-
-	public void setArticles(Set<Article> articles) {
-		this.articles = articles;
-	}
+//	public Set<Article> getArticles() {
+//		return articles;
+//	}
+//
+//	public void setArticles(Set<Article> articles) {
+//		this.articles = articles;
+//	}
 
 	public Set<LigneCommande> getLignes() {
 		return lignes;

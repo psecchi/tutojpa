@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.proxiad.formation.jpa.dto.CommandeClientDTO;
 import com.proxiad.formation.jpa.model.Commande;
 import com.proxiad.formation.jpa.repository.CommandeRepository;
 
@@ -92,5 +93,24 @@ public class CommandeRepositoryImpl implements CommandeRepository {
 	@Override
 	public void detach(Commande commande) {
 		em.detach(commande);
+	}
+	
+	@Override
+	public List<CommandeClientDTO> getCommandeClientDTOs() {
+		String queryStr = "select new com.proxiad.formation.jpa.dto.CommandeClientDTO("
+				+ "c.client.nom, "
+				+ "c.client.prenom, "
+				+ "c.id, "
+				+ "c.etat, "
+				+ "c.dateCreation, "
+				+ "l.quantite, "
+				+ "l.article.code, "
+				+ "l.article.designation, "
+				+ "l.article.prix, "
+				+ "l.article.prix * l.quantite) "
+				+ "from Commande c join c.lignes l  ";
+		
+		TypedQuery<CommandeClientDTO> query = em.createQuery(queryStr, CommandeClientDTO.class);
+		return query.getResultList();
 	}
 }

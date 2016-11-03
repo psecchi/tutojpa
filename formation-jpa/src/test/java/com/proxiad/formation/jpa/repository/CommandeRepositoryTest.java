@@ -3,6 +3,7 @@ package com.proxiad.formation.jpa.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.LazyInitializationException;
@@ -12,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
+import com.proxiad.formation.jpa.dto.CommandeClientDTO;
 import com.proxiad.formation.jpa.model.Commande;
+import com.proxiad.formation.jpa.model.EtatCommande;
 import com.proxiad.formation.jpa.model.LigneCommande;
 
 @DatabaseSetup("classpath:data/commande.xml")
@@ -21,6 +24,9 @@ public class CommandeRepositoryTest extends AbstractRepositoryTest {
 
 	@Autowired
 	private CommandeRepository commandeRepository;
+	
+	@Autowired
+	private ClientRepository clientRepository;
 
 	@Test
 	public void testFindById() {
@@ -34,6 +40,18 @@ public class CommandeRepositoryTest extends AbstractRepositoryTest {
 		List<Commande> commandes = commandeRepository.findAll();
 		assertNotNull(commandes);
 		assertEquals(4, commandes.size());
+	}
+	
+	@Test
+	public void testCreate() {
+		Commande commande = new Commande();
+		commande.setEtat(EtatCommande.EN_COURS);
+		commande.setDateCreation(new Date());
+		commande.setClient(clientRepository.find("3"));
+		
+		commandeRepository.create(commande);
+		
+		assertEquals(2, commandeRepository.findByNumeroClient("3").size());
 	}
 
 	@Test
@@ -103,6 +121,15 @@ public class CommandeRepositoryTest extends AbstractRepositoryTest {
 		Commande commande = commandeRepository.find("1");
 		commandeRepository.detach(commande); // l'entité commande n'est plus gérée par l'entityManager
 		int nbLigne = commande.getLignes().size(); // => l'appel getLignes à génère une LazyInitializationException
-
+		assertEquals(3, nbLigne);
+	}
+	
+	@Test
+	public void testGetCommandeClientDTOs() {
+		List<CommandeClientDTO> commandeClientDTOs = commandeRepository.getCommandeClientDTOs();
+		assertEquals(6, commandeClientDTOs.size());
+		for (CommandeClientDTO commandeClientDTO : commandeClientDTOs) {
+			System.out.println(commandeClientDTO);
+		}
 	}
 }
