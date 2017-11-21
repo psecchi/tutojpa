@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -27,7 +28,7 @@ public class LigneCommande implements Serializable {
 	@Id
 	private Commande commande;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "article_code", foreignKey = @ForeignKey(name = "fk_ligne_commande_article"))
 	private Article article;
 

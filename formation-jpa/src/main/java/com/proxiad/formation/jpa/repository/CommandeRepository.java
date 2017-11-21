@@ -28,6 +28,10 @@ public interface CommandeRepository {
 	List<Commande> findAllFetchLigne();
 
 	List<CommandeClientDTO> getCommandeClientDTOs();
+	
+	public List<Commande> findByNumeroClientCriteria(String numeroClient);
+	
+	public List<Commande> findByNumeroClientHibernateCriteria(String numeroClient);
 
 	// Juste pour les tests :
 	void flush();

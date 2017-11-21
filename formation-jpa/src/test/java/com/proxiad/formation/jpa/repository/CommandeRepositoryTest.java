@@ -76,7 +76,21 @@ public class CommandeRepositoryTest extends AbstractRepositoryTest {
 		assertNotNull(commandes);
 		assertEquals(2, commandes.size());
 	}
-
+	
+	@Test
+	public void testFindByNumeroClientCriteria() {
+		List<Commande> commandes = commandeRepository.findByNumeroClientCriteria("1");
+		assertNotNull(commandes);
+		assertEquals(2, commandes.size());
+	}
+	
+	@Test
+	public void testFindByNumeroClientHibernateCriteria() {
+		List<Commande> commandes = commandeRepository.findByNumeroClientHibernateCriteria("1");
+		assertNotNull(commandes);
+		assertEquals(2, commandes.size());
+	}
+	
 	@Test
 	public void testFindByDesignationArticle() {
 		List<Commande> commandes = commandeRepository.findByDesignationArticle("tournevis");
@@ -123,6 +137,7 @@ public class CommandeRepositoryTest extends AbstractRepositoryTest {
 		System.out.println("avant getLigne");
 		for (Commande commande : commandes) {
 			System.out.println("la commande " + commande.getId() + " a " + commande.getLignes().size() + " lignes");
+			
 		}
 		assertNotNull(commandes);
 		System.out.println("après getLigne");
@@ -148,4 +163,6 @@ public class CommandeRepositoryTest extends AbstractRepositoryTest {
 			System.out.println(commandeClientDTO);
 		}
 	}
+	
+
 }

@@ -16,7 +16,15 @@ public interface ClientRepository {
 
 	void delete(Client client);
 	
+	public void updateAll();
+	
 	void flush();
 	
 	void detach(Client client);
+	
+	public String getNomClientProcedureStockee(String numeroClient);
+	
+	public List<Client> findByNomCriteria(String nom);
+	
+	public List<Client> findByNomHibernateCriteria(String nom);
 }

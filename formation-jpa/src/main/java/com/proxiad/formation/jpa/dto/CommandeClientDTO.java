@@ -9,6 +9,8 @@ public class CommandeClientDTO implements Serializable {
 
 	private static final long serialVersionUID = 3535361924604969890L;
 
+	private ClientDTO clientDTO;
+	
 	private String nomClient;
 
 	private String prenomClient;
@@ -35,6 +37,7 @@ public class CommandeClientDTO implements Serializable {
 		super();
 		this.nomClient = nomClient;
 		this.prenomClient = prenomClient;
+		clientDTO = new ClientDTO(nomClient, prenomClient);
 		this.idCommande = idCommande;
 		this.etatCommande = etatCommande;
 		this.dateCommande = dateCommande;
@@ -44,7 +47,7 @@ public class CommandeClientDTO implements Serializable {
 		this.prixUnitaire = prixUnitaire;
 		this.montantLigne = montantLigne;
 	}
-
+	
 	public String getNomClient() {
 		return nomClient;
 	}

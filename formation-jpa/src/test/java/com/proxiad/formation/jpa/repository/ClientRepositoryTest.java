@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.PersistenceException;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,6 +18,7 @@ import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.proxiad.formation.jpa.model.Client;
+import com.proxiad.formation.jpa.model.Commande;
 
 @DatabaseSetup("classpath:data/client.xml")
 @DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:data/client.xml")
@@ -36,6 +38,15 @@ public class ClientRepositoryTest extends AbstractRepositoryTest {
 	public void testFind() {
 		Client client = clientRepository.find("1");
 		assertEquals("Zidane", client.getNom());
+	}
+	
+	@Test
+	public void testUpdateAll() {
+		clientRepository.updateAll();
+		List<Client> clients = clientRepository.findAll();
+		for (Client client : clients) {
+			assertEquals("titi", client.getNom());
+		}
 	}
 
 	@Test
@@ -108,4 +119,25 @@ public class ClientRepositoryTest extends AbstractRepositoryTest {
 		assertEquals("Zidane", clientRepository.find("1").getNom());
 	}
 	
+	@Test
+	@Ignore("ne fonctionne que sur une vrai BDD où la proc stock existe et non une base embarquée")
+	public void testGetNomClientProcStock() {
+		String nom = clientRepository.getNomClientProcedureStockee("1");
+		assertNotNull(nom);
+		assertEquals("Zidane", nom);
+	}
+	
+	@Test
+	public void testFindByNomCriteria() {
+		List<Client> clients = clientRepository.findByNomCriteria("Zidane");
+		assertNotNull(clients);
+		assertEquals("Zidane", clients.get(0).getNom());
+	}
+	
+	@Test
+	public void testFindByNomHibernateCriteria() {
+		List<Client> clients = clientRepository.findByNomHibernateCriteria("Zidane");
+		assertNotNull(clients);
+		assertEquals("Zidane", clients.get(0).getNom());
+	}
 }

@@ -41,7 +41,7 @@ public class SpringDataClientRepositoryTest extends AbstractRepositoryTest {
 	}
 
 	@Test
-	public void testFindByPrenom2() {
+	public void testFindByNomAndPrenom() {
 		final List<Client> clients = clientRepository.findByNomAndPrenom("Zidane", "Zinedine");
 		assertEquals(1, clients.size());
 		assertEquals("Zidane", clients.get(0).getNom());
