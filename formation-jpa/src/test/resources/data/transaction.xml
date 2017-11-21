@@ -1,0 +1,5 @@
+<dataset>
+	<transaction id="1" type="RETRAIT" />
+	<transaction id="2" type="VIREMENT" />
+	<transaction id="3" type="VIREMENT" />
+</dataset>
