@@ -14,6 +14,7 @@ import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.proxiad.formation.jpa.dto.CommandeClientDTO;
+import com.proxiad.formation.jpa.model.Article;
 import com.proxiad.formation.jpa.model.Commande;
 import com.proxiad.formation.jpa.model.EtatCommande;
 import com.proxiad.formation.jpa.model.LigneCommande;
@@ -64,10 +65,34 @@ public class CommandeRepositoryTest extends AbstractRepositoryTest {
 		commande.setEtat(EtatCommande.EN_COURS);
 		commande.setDateCreation(new Date());
 		commande.setClient(clientRepository.find("3"));
-		
+		LigneCommande ligne1 = new LigneCommande();
+		ligne1.setNumeroLigne(1);
+		ligne1.setArticle(new Article(1111));
+		commande.addLigne(ligne1);
 		commandeRepository.create(commande);
+		// EXPLIQUER LE FLUCH ET DETACH => montrer les requetes générées sans l'un et l'autre !
+		commandeRepository.flush();
+		commandeRepository.detach(commande);
 		
-		assertEquals(2, commandeRepository.findByNumeroClient("3").size());
+		assertNotNull(commandeRepository.find(commande.getId()));
+		assertEquals(1, commandeRepository.find(commande.getId()).getLignes().size());
+	}
+	
+	@Test
+	public void testUpdate() {
+		Commande commande = commandeRepository.find("2");
+		
+		LigneCommande newLigne = new LigneCommande();
+		newLigne.setNumeroLigne(commande.getLignes().size() + 1);
+		newLigne.setArticle(new Article(1111));
+		commande.addLigne(newLigne);
+		
+		commandeRepository.update(commande);
+		// EXPLIQUER LE FLUCH ET DETACH => montrer les requetes générées sans l'un et l'autre !
+		commandeRepository.flush();
+		commandeRepository.detach(commande);
+		
+		assertEquals(2, commandeRepository.find(commande.getId()).getLignes().size());
 	}
 
 	@Test

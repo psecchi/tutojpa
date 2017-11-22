@@ -1,6 +1,0 @@
-<dataset>
-	<article code="1111" designation="echelle" prix="20.50"/>
-	<article code="1234" designation="tournevis" prix="5"/>
-	<article code="2222" designation="tondeuse" prix="190.99"/>
-	<article code="4567" designation="rateau" prix="15"/>
-</dataset>

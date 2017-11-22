@@ -7,9 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import javax.persistence.PersistenceException;
-
-import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +15,6 @@ import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.proxiad.formation.jpa.model.Client;
-import com.proxiad.formation.jpa.model.Commande;
 
 @DatabaseSetup("classpath:data/client.xml")
 @DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:data/client.xml")

@@ -11,6 +11,15 @@ public class Article implements Serializable {
 
 	private static final long serialVersionUID = 7521234789989497015L;
 
+	public Article() {
+		super();
+	}
+	
+	public Article(Integer code) {
+		super();
+		this.code = code;
+	}
+
 	@Id
 	private Integer code;
 

@@ -108,6 +108,11 @@ public class Commande implements Serializable {
 	public void setLignes(Set<LigneCommande> lignes) {
 		this.lignes = lignes;
 	}
+	
+	public void addLigne(LigneCommande ligne) {
+		ligne.setCommande(this);
+		this.getLignes().add(ligne);
+	}
 
 	@Override
 	public int hashCode() {
