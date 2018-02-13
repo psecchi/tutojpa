@@ -175,6 +175,7 @@ public class CommandeRepositoryTest extends AbstractRepositoryTest {
 		// But du test : tenter d'accéder à une propriété en lazy d'une entité
 		// "detachée" du contexte
 		Commande commande = commandeRepository.find("1");
+		// commande.getLignes().size(); // si je décommente, je n'ai plus l'erreur : les lignes ont été chargée avant le detach 
 		commandeRepository.detach(commande); // l'entité commande n'est plus gérée par l'entityManager
 		int nbLigne = commande.getLignes().size(); // => l'appel getLignes à génère une LazyInitializationException
 		assertEquals(3, nbLigne);
