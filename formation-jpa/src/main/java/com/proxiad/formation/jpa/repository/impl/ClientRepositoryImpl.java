@@ -55,7 +55,7 @@ public class ClientRepositoryImpl implements ClientRepository {
 		String query = "update Client c set c.nom = 'titi' ";
 		em.createQuery(query).executeUpdate();
 	}
-	
+
 	@Override
 	public void delete(Client client) {
 		// Tester si l'entity client est attachée au contexte de persistence.
@@ -66,30 +66,30 @@ public class ClientRepositoryImpl implements ClientRepository {
 			em.remove(em.merge(client));
 		}
 	}
-	
+
 	@Override
 	public void flush() {
 		em.flush();
 	}
-	
+
 	@Override
 	public void detach(Client client) {
 		em.detach(client);
 	}
-	
+
 	@Override
 	public String getNomClientProcedureStockee(String numeroClient) {
-		StoredProcedureQuery storedProcedure = em.createStoredProcedureQuery("test");
+		StoredProcedureQuery storedProcedure = em.createStoredProcedureQuery("get_nom_client_par_numero");
 		storedProcedure.registerStoredProcedureParameter("numeroClient", String.class, ParameterMode.IN);
 		storedProcedure.setParameter("numeroClient", numeroClient);
 		storedProcedure.execute();
-		return (String)storedProcedure.getSingleResult();
+		return (String) storedProcedure.getSingleResult();
 
 	}
-	
+
 	@Override
 	public List<Client> findByNomCriteria(String nom) {
-		
+
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 
 		CriteriaQuery<Client> criteriaQuery = builder.createQuery(Client.class);
@@ -101,7 +101,7 @@ public class ClientRepositoryImpl implements ClientRepository {
 		query.setParameter(pNomClient, nom);
 		return query.getResultList();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Client> findByNomHibernateCriteria(String nom) {
