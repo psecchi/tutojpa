@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "transaction")
+@Table(name = "transaction_bancaire")
 @DiscriminatorColumn(name="type")
 public abstract class Transaction {
 
