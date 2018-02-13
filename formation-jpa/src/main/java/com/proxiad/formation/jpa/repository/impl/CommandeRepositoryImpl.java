@@ -79,8 +79,12 @@ public class CommandeRepositoryImpl implements CommandeRepository {
 	public List<Commande> findByNumeroClientHibernateCriteria(String numeroClient) {
 		Session session = (Session) em.getDelegate();
 		Criteria criteria = session.createCriteria(Commande.class);
-		Criteria clientCriteria = criteria.createCriteria("client");
-		clientCriteria.add(Restrictions.eq("numero", numeroClient));
+		
+		// on peut chainer les criteria :
+		// Criteria clientCriteria = criteria.createCriteria("client");
+		// clientCriteria.add(Restrictions.eq("numero", numeroClient));
+		
+		criteria.add(Restrictions.eq("client.numero", numeroClient));
 		return criteria.list();
 	}
 
@@ -122,9 +126,8 @@ public class CommandeRepositoryImpl implements CommandeRepository {
 	@Override
 	public List<Commande> findAllFetchLigne() {
 		// expliquer le distinct
-		// String queryStr = "select c from Commande c ";
-		// String queryStr = "select distinct c from Commande c join c.lignes l
-		// ";
+		//String queryStr = "select c from Commande c ";
+		// String queryStr = "select distinct c from Commande c join c.lignes l ";
 		String queryStr = "select distinct c from Commande c join fetch c.lignes l  ";
 		TypedQuery<Commande> query = em.createQuery(queryStr, Commande.class);
 		return query.getResultList();
